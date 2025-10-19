@@ -1,11 +1,9 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # Redirige la solicitud raíz a la carpeta /dist
-  RewriteRule ^$ /dist/ [L]
+  # Si la URL ya contiene /dist, no hagas nada más (esto corta el loop)
+  RewriteCond %{REQUEST_URI} !^/dist/
 
-  # Reenvía todas las demás solicitudes que no son archivos o directorios existentes a /dist
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
+  # Para todas las demás peticiones, mostrá el contenido de /dist
   RewriteRule ^(.*)$ /dist/$1 [L]
 </IfModule>
